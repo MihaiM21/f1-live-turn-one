@@ -1,0 +1,16 @@
+{
+  "name": "Formula 1 Live Dashboard - Turn One",
+  "short_name": "F1 Live Dashboard",
+  "description": "Formula 1 Live Dashboard powered by Turn One",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "200x200",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "fullscreen",
+  "theme_color": "#000000",
+  "background_color": "#000000"
+}
