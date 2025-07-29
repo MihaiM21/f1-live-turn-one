@@ -7,6 +7,7 @@ import Radio from "/components/Radio";
 import Map from "/components/Map";
 import Input from "/components/Input";
 import SpeedTrap, { speedTrapColumns } from "/components/SpeedTrap";
+import WeatherCircle from "@f1-live-turn-one/components/WeatherCircle";
 
 const f1Url = "https://livetiming.formula1.com";
 
@@ -39,16 +40,43 @@ const getFlagColour = (flag) => {
       return { bg: "transparent" };
   }
 };
-
+const getColorForKey = (key)=> {
+    switch (key) {
+        case 'TrackTemp':
+            return '#ff6600'; // portocaliu
+        case 'AirTemp':
+            return '#3399ff'; // albastru
+        case 'WindSpeed':
+            return '#66cc66'; // verde
+        default:
+            return '#cccccc'; // gri fallback
+    }
+};
+const excludedKeys = ["_kf", "Rainfall", "WindDirection"];
+const getCircleColor = (key) => {
+    switch (key) {
+        case "AirTemp":
+            return "blue";
+        case "TrackTemp":
+            return "red";
+        case "WindSpeed":
+            return "gray";
+        default:
+            return null;
+    }
+};
 const getWeatherUnit = (key) => {
   switch (key) {
     case "AirTemp":
     case "TrackTemp":
-      return "°C";
+      return;
+        //return "°";
     case "Humidity":
-      return "%";
+      return;
+        //return "%";
     case "Pressure":
-      return " mbar";
+      return;
+        //return " mbar";
     case "WindDirection":
       return "°";
     case "WindSpeed":
@@ -164,55 +192,179 @@ export default function Home() {
 
   if (!connected)
     return (
-      <>
-        <Head>
-          <title>No connection</title>
-        </Head>
-        <main>
-          <div
-            style={{
-              width: "100vw",
-              height: "100vh",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <p style={{ marginBottom: "var(--space-4)" }}>
-              <strong>NO CONNECTION</strong>
-            </p>
-            <button onClick={() => window.location.reload()}>RELOAD</button>
-          </div>
-        </main>
-      </>
+        <>
+            <Head>
+                <title>No Connection – Turn One</title>
+            </Head>
+            <main>
+                <div
+                    style={{
+                        width: "100vw",
+                        height: "100vh",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "#0E0E0E", // dark background
+                        color: "#f1f5f9",
+                        textAlign: "center",
+                        padding: "2rem",
+                        //fontFamily: "Arial, sans-serif",
+                        //fontFamily: "SF Pro Display",
+                    }}
+                >
+                    {/* Logo Turn One */}
+                    <img
+                        src="/logo-turnone.png"
+                        alt="Turn One Logo"
+                        style={{
+                            width: "120px",
+                            marginBottom: "1.5rem",
+                            //filter: "drop-shadow(0 0 8px rgba(255, 0, 0, 0.4))",
+                        }}
+                    />
+
+                    <h1 style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#FC3029", marginBottom: "1rem" }}>
+                        NO CONNECTION DETECTED
+                    </h1>
+
+                    <p style={{ fontSize: "1.2rem", marginBottom: "0.5rem", color: "#cbd5e1" }}>
+                        We're having trouble connecting to the live dashboard.
+                    </p>
+                    <p style={{ fontSize: "1rem", marginBottom: "1.5rem", color: "#94a3b8" }}>
+                        Please check your internet connection or try again shortly.
+                    </p>
+
+                    {/* Retry Button */}
+                    <button
+                        onClick={() => location.reload()}
+                        style={{
+                            backgroundColor: "#FC3029",
+                            color: "#fff",
+                            padding: "0.75rem 1.5rem",
+                            borderRadius: "0.5rem",
+                            border: "none",
+                            cursor: "pointer",
+                            //fontWeight: "bold",
+                            transition: "background-color 0.3s",
+                        }}
+                        onMouseOver={e => (e.currentTarget.style.backgroundColor = "#ee211b")}
+                        onMouseOut={e => (e.currentTarget.style.backgroundColor = "#FC3029")}
+                    >
+                        Retry Connection
+                    </button>
+
+                    {/* Powered by */}
+                    <p style={{ marginTop: "3rem", fontSize: "0.875rem", color: "#64748b" }}>
+                        Powered by <strong>Turn One</strong> – Live F1 Telemetry & Race Tools
+                    </p>
+                </div>
+            </main>
+        </>
     );
 
   if (Date.now() < delayTarget)
     return (
-      <>
-        <Head>
-          <title>Syncing</title>
-        </Head>
-        <main>
-          <div
-            style={{
-              width: "100vw",
-              height: "100vh",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <p style={{ marginBottom: "var(--space-4)" }}>
-              <strong>SYNCING...</strong>
-            </p>
-            <p>{(delayTarget - Date.now()) / 1000} sec</p>
-          </div>
-        </main>
-      </>
+        <>
+            <Head>
+                <title>Syncing – Turn One</title>
+            </Head>
+            <main>
+                <div
+                    style={{
+                        width: "100vw",
+                        height: "100vh",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "#0E0E0E",
+                        color: "#f1f5f9",
+                        textAlign: "center",
+                        padding: "2rem",
+                    }}
+                >
+                    {/* Logo Turn One */}
+                    <img
+                        src="/logo-turnone.png"
+                        alt="Turn One Logo"
+                        style={{
+                            width: "120px",
+                            marginBottom: "1.5rem",
+                        }}
+                    />
+
+                    <h1 style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#FC3029", marginBottom: "1rem" }}>
+                        SYNCING SESSION
+                    </h1>
+
+                    <p style={{ fontSize: "1.2rem", marginBottom: "0.5rem", color: "#cbd5e1" }}>
+                        Preparing live telemetry…
+                    </p>
+
+                    {/* Dynamic countdown */}
+                    <p style={{ fontSize: "1rem", marginBottom: "1.5rem", color: "#94a3b8" }}>
+                        Session starts in <strong>{Math.max(0, ((delayTarget - Date.now()) / 1000).toFixed(1))}s</strong>
+                    </p>
+
+                    {/* Spinner (optional) */}
+                    <div
+                        style={{
+                            border: "4px solid #1e293b",
+                            borderTop: "4px solid #FC3029",
+                            borderRadius: "50%",
+                            width: "48px",
+                            height: "48px",
+                            animation: "spin 1s linear infinite",
+                        }}
+                    />
+
+                    {/* Spinner keyframes */}
+                    <style>
+                        {`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+                    </style>
+
+                    {/* Powered by */}
+                    <p style={{ marginTop: "3rem", fontSize: "0.875rem", color: "#64748b" }}>
+                        Powered by <strong>Turn One</strong> – Real-Time F1 Analysis
+                    </p>
+                </div>
+            </main>
+        </>
     );
+    const countryCodeMap = {
+        "Australia": "au",
+        "Saudi Arabia": "sa",
+        "China": "cn",
+        "Azerbaijan": "az",
+        "United States": "us", // Miami, Austin, Las Vegas
+        "Italy": "it", // Imola, Monza
+        "Monaco": "mc",
+        "Spain": "es",
+        "Canada": "ca",
+        "Austria": "at",
+        "United Kingdom": "gb",
+        "Hungary": "hu",
+        "Belgium": "be",
+        "Netherlands": "nl",
+        "Singapore": "sg",
+        "Japan": "jp",
+        "Qatar": "qa",
+        "Mexico": "mx",
+        "Brazil": "br",
+        "Abu Dhabi": "ae", // UAE
+        "Bahrain": "bh",
+        "South Africa": "za", // (dacă apare în viitor)
+        "Portugal": "pt", // (dacă apare)
+        "Germany": "de", // (pentru Nürburgring/Hockenheim)
+        "France": "fr", // (pentru Paul Ricard)
+        "Turkey": "tr", // (pentru Istanbul Park)
+    };
 
   const {
     Heartbeat,
@@ -234,28 +386,76 @@ export default function Home() {
 
   if (!Heartbeat)
     return (
-      <>
-        <Head>
-          <title>No session</title>
-        </Head>
-        <main>
-          <div
-            style={{
-              width: "100vw",
-              height: "100vh",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <p style={{ marginBottom: "var(--space-4)" }}>
-              <strong>NO SESSION</strong>
-            </p>
-            <p>Come back later when there is a live session</p>
-          </div>
-        </main>
-      </>
+        <>
+            <Head>
+                <title>No Live Session – Turn One</title>
+            </Head>
+            <main>
+                <div
+                    style={{
+                        width: "100vw",
+                        height: "100vh",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "#0E0E0E", // dark background
+                        color: "#f1f5f9",
+                        textAlign: "center",
+                        padding: "2rem",
+                        //fontFamily: "Arial, sans-serif",
+                        //fontFamily: "SF Pro Display",
+                    }}
+                >
+                    {/* Logo Turn One */}
+                    <img
+                        src="/logo-turnone.png"
+                        alt="Turn One Logo"
+                        style={{
+                            width: "120px",
+                            marginBottom: "1.5rem",
+                            //filter: "drop-shadow(0 0 8px rgba(255, 0, 0, 0.4))",
+                        }}
+                    />
+
+                    <h1 style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#FC3029", marginBottom: "1rem" }}>
+                        NO LIVE SESSION AVAILABLE
+                    </h1>
+
+                    <p style={{ fontSize: "1.2rem", marginBottom: "0.5rem", color: "#cbd5e1" }}>
+                        The live F1 dashboard is currently offline.
+                    </p>
+                    <p style={{ fontSize: "1rem", marginBottom: "1.5rem", color: "#94a3b8" }}>
+                        Check back during an active session or refresh the page.
+                    </p>
+
+                    {/* Optional Refresh Button */}
+                    <button
+                        onClick={() => location.reload()}
+                        style={{
+                            backgroundColor: "#FC3029",
+                            color: "#fff",
+                            padding: "0.75rem 1.5rem",
+                            borderRadius: "0.5rem",
+                            border: "none",
+                            cursor: "pointer",
+                            //fontWeight: "bold",
+                            transition: "background-color 0.3s",
+                        }}
+                        onMouseOver={e => (e.currentTarget.style.backgroundColor = "#dc2626")}
+                        onMouseOut={e => (e.currentTarget.style.backgroundColor = "#FC3029")}
+                    >
+                        Refresh Page
+                    </button>
+
+                    {/* Powered by */}
+                    <p style={{ marginTop: "3rem", fontSize: "0.875rem", color: "#64748b" }}>
+                        Powered by <strong>Turn One</strong> – F1 Telemetry & Analysis
+                    </p>
+                </div>
+            </main>
+        </>
+
     );
 
   const extrapolatedTimeRemaining =
@@ -276,8 +476,10 @@ export default function Home() {
             .format("HH:mm:ss")
         : ExtrapolatedClock.Remaining
       : undefined;
-
+    const countryName = SessionInfo.Meeting.Country.Name;
+    const countryCode = countryCodeMap[countryName] || "xx";
   return (
+
     <>
       <Head>
         <title>
@@ -290,7 +492,7 @@ export default function Home() {
           <div
             style={{
               display: "flex",
-              alignItems: "flex-start",
+              alignItems: "center",
               justifyContent: "space-between",
               padding: "var(--space-3)",
               borderBottom: "1px solid var(--colour-border)",
@@ -300,99 +502,142 @@ export default function Home() {
             <div
               style={{
                 display: "flex",
-                alignItems: "flex-start",
+                alignItems: "center",
               }}
             >
               {!!SessionInfo && (
                 <>
                   <p style={{ marginRight: "var(--space-4)" }}>
-                    <strong>{SessionInfo.Meeting.OfficialName}</strong>,{" "}
-                    {SessionInfo.Meeting.Circuit.ShortName},{" "}
-                    {SessionInfo.Meeting.Country.Name}
+                      <img
+                          src={`https://flagcdn.com/w160/${countryCode}.png`}
+                          alt={countryName}
+                          style={{ width: "70px", height: "40px", objectFit: "cover", borderRadius: "5px" }}
+                      />
+
                   </p>
-                  <p style={{ marginRight: "var(--space-4)" }}>
-                    Session: {SessionInfo.Name}
-                  </p>
+                  <strong>
+                      {SessionInfo.Meeting.Circuit.ShortName}
+                      <br/>
+                      <p style={{marginTop:"5px"}}> {SessionInfo.Name} </p>
+                  </strong>
                 </>
               )}
-              {!!TrackStatus && (
-                <p style={{ marginRight: "var(--space-4)" }}>
-                  Status: {TrackStatus.Message}
-                </p>
-              )}
-              {!!extrapolatedTimeRemaining && (
-                <p style={{ marginRight: "var(--space-4)" }}>
-                  Remaining: {extrapolatedTimeRemaining}
-                </p>
-              )}
+              {/*{!!TrackStatus && (*/}
+              {/*  <p style={{ marginRight: "var(--space-4)" }}>*/}
+              {/*    Status: {TrackStatus.Message}*/}
+              {/*  </p>*/}
+              {/*)}*/}
+              {/*{!!extrapolatedTimeRemaining && (*/}
+              {/*  <p style={{ marginRight: "var(--space-4)" }}>*/}
+              {/*    Remaining: {extrapolatedTimeRemaining}*/}
+              {/*  </p>*/}
+              {/*)}*/}
             </div>
+
+              {!!WeatherData && (
+                  <div
+                      style={{
+                          display: "flex",
+                          padding: "var(--space-1)",
+                          //borderBottom: "1px solid var(--colour-border)",
+                          overflowX: "auto",
+                      }}
+                  >
+                      {Object.entries(WeatherData).map(([k, v]) =>
+                          !excludedKeys.includes(k) ? (
+                              <p
+                                  key={`weather-${k}`}
+                                  style={{ marginRight: "var(--space-4)", display: "flex", alignItems: "center", gap: "0.5rem" }}
+                              >
+                                  <WeatherCircle value={v} unit={getWeatherUnit(k)} color={getColorForKey(k)} />
+                                  {/*<span>{v}{getWeatherUnit(k)}</span>*/}
+                                  {k}
+                              </p>
+
+                          ) : null
+                      )}
+                  </div>
+              )}
             <div
               style={{
                 display: "flex",
-                alignItems: "flex-start",
+                alignItems: "center",
               }}
             >
-              <p style={{ marginRight: "var(--space-4)" }}>
-                Data updated: {moment.utc(updated).format("HH:mm:ss.SSS")} UTC
-              </p>
-              <p style={{ color: "limegreen", marginRight: "var(--space-4)" }}>
-                CONNECTED
-              </p>
+              {/*<p style={{ marginRight: "var(--space-4)" }}>*/}
+              {/*  Data updated: {moment.utc(updated).format("HH:mm:ss.SSS")} UTC*/}
+              {/*</p>*/}
+
+
               {!!LapCount && (
-                <p style={{ marginRight: "var(--space-4)" }}>
-                  Lap: {LapCount.CurrentLap}/{LapCount.TotalLaps}
+                <p style={{ marginRight: "var(--space-4)",
+                    fontSize: "1rem",
+                    backgroundColor: "#1e1d1d",
+                    padding:"0.5rem 0.5rem",
+                    borderRadius: "0.5rem",
+                    filter: "drop-shadow(0 0 8px #272525)", }}>
+                  {LapCount.CurrentLap} / {LapCount.TotalLaps}
                 </p>
               )}
               {/* Delay */}
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const form = new FormData(e.target);
-                  const delayMsValue = Number(form.get("delayMs"));
-                  setBlocking(true);
-                  setDelayMs(delayMsValue);
-                  setDelayTarget(Date.now() + delayMsValue);
-                }}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <p style={{ marginRight: "var(--space-2)" }}>Delay</p>
-                <Input
-                  type="number"
-                  name="delayMs"
-                  defaultValue={delayMs}
-                  style={{ width: "75px", marginRight: "var(--space-2)" }}
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        const form = new FormData(e.target);
+                        const delayMsValue = Number(form.get("delayMs"));
+                        setBlocking(true);
+                        setDelayMs(delayMsValue);
+                        setDelayTarget(Date.now() + delayMsValue);
+                    }}
+                >
+                    <label
+                        htmlFor="delayMs"
+                        style={{
+                            color: "#f1f5f9",
+                            fontSize: "1rem",
+                            fontWeight: "500",
+                            marginRight: "var(--space-2)",
+                        }}
+                    >
+                        Delay
+                    </label>
+
+                    <input
+                        type="number"
+                        name="delayMs"
+                        id="delayMs"
+                        defaultValue={delayMs}
+                        placeholder="ms"
+                        style={{
+                            width: "80px",
+                            padding: "0.5rem 0.3rem",
+                            backgroundColor: "#0e0e0e",
+                            border: "1px solid #3b3b3b",
+                            borderRadius: "0.375rem",
+                            color: "#f1f5f9",
+                            fontSize: "0.95rem",
+                            outline: "none",
+                            marginRight: "var(--space-2)",
+                            transition: "border-color 0.3s",
+                        }}
+                        onFocus={(e) => (e.target.style.borderColor = "#FC3029")}
+                        onBlur={(e) => (e.target.style.borderColor = "#3b3b3b")}
+                    />
+                </form>
+                <span
+                    style={{
+                        display: "inline-block",
+                        width: "15px",
+                        height: "15px",
+                        borderRadius: "50%",
+                        backgroundColor: "limegreen",
+                        marginRight: "var(--space-2)",
+                        //border: "2px solid white",
+                    }}
                 />
-                {/* <p style={{ marginRight: "var(--space-4)" }}>ms</p> */}
-              </form>
-              
             </div>
           </div>
 
-          {!!WeatherData && (
-            <div
-              style={{
-                display: "flex",
-                padding: "var(--space-3)",
-                borderBottom: "1px solid var(--colour-border)",
-                overflowX: "auto",
-              }}
-            >
-              <p style={{ marginRight: "var(--space-4)" }}>
-                <strong>WEATHER</strong>
-              </p>
-              {Object.entries(WeatherData).map(([k, v]) =>
-                k !== "_kf" ? (
-                  <p
-                    key={`weather-${k}`}
-                    style={{ marginRight: "var(--space-4)" }}
-                  >
-                    {k}: {v}
-                    {getWeatherUnit(k)}
-                  </p>
-                ) : null
-              )}
-            </div>
-          )}
         </>
 
         <div>
