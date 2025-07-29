@@ -343,7 +343,8 @@ export default function Home() {
                   Lap: {LapCount.CurrentLap}/{LapCount.TotalLaps}
                 </p>
               )}
-              {/* <form
+              {/* Delay */}
+              <form
                 onSubmit={(e) => {
                   e.preventDefault();
                   const form = new FormData(e.target);
@@ -361,8 +362,8 @@ export default function Home() {
                   defaultValue={delayMs}
                   style={{ width: "75px", marginRight: "var(--space-2)" }}
                 />
-                <p style={{ marginRight: "var(--space-4)" }}>ms</p>
-              </form> */}
+                {/* <p style={{ marginRight: "var(--space-4)" }}>ms</p> */}
+              </form>
               
             </div>
           </div>
