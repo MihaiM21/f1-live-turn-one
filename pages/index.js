@@ -43,16 +43,16 @@ const getFlagColour = (flag) => {
 const getColorForKey = (key)=> {
     switch (key) {
         case 'TrackTemp':
-            return '#ff6600'; // portocaliu
+            return '#ff6600';
         case 'AirTemp':
-            return '#3399ff'; // albastru
+            return '#f8ff33';
         case 'WindSpeed':
-            return '#66cc66'; // verde
+            return '#66cc66';
         default:
-            return '#cccccc'; // gri fallback
+            return '#cccccc';
     }
 };
-const excludedKeys = ["_kf", "Rainfall", "WindDirection"];
+const excludedKeys = ["_kf", "Rainfall", "WindDirection", "Pressure", "Humidity"];
 const getCircleColor = (key) => {
     switch (key) {
         case "AirTemp":
@@ -69,14 +69,14 @@ const getWeatherUnit = (key) => {
   switch (key) {
     case "AirTemp":
     case "TrackTemp":
-      return;
-        //return "°";
+      //return;
+        return "°C";
     case "Humidity":
-      return;
-        //return "%";
+      //return;
+        return "%";
     case "Pressure":
-      return;
-        //return " mbar";
+      //return;
+        return " mbar";
     case "WindDirection":
       return "°";
     case "WindSpeed":
@@ -505,6 +505,15 @@ export default function Home() {
                 alignItems: "center",
               }}
             >
+                <img
+                    src="/logo-turnone.png"
+                    alt="Turn One Logo"
+                    style={{
+                        width: "50px",
+                        marginRight: "1rem",
+                        //filter: "drop-shadow(0 0 8px rgba(255, 0, 0, 0.4))",
+                    }}
+                />
               {!!SessionInfo && (
                 <>
                   <p style={{ marginRight: "var(--space-4)" }}>
@@ -549,9 +558,8 @@ export default function Home() {
                                   key={`weather-${k}`}
                                   style={{ marginRight: "var(--space-4)", display: "flex", alignItems: "center", gap: "0.5rem" }}
                               >
-                                  <WeatherCircle value={v} unit={getWeatherUnit(k)} color={getColorForKey(k)} />
+                                  <WeatherCircle value={v} unit={getWeatherUnit(k)} color={getColorForKey(k)} type={k} />
                                   {/*<span>{v}{getWeatherUnit(k)}</span>*/}
-                                  {k}
                               </p>
 
                           ) : null
