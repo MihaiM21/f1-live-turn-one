@@ -75,7 +75,7 @@ const GlobalStyle = createGlobalStyle`
         width: 70px;
         height: 70px;
         position: relative;
-        flex-shrink: 0;
+        margin-inline: var(--space-3);
     }
 
     .circle-svg {
@@ -103,9 +103,15 @@ const GlobalStyle = createGlobalStyle`
         transform: translate(-50%, -50%);
         text-align: center;
         color: white;
-        font-family: var(--fontFamily-body);
     }
-
+    .type-name{
+        background: #0E0E0E;
+        border-radius: 30px;
+        padding-top: 5px;
+        position: relative;
+        top:-29%;
+        text-align: center;
+    }
     .circle-value {
         font-size: 0.9rem;
         font-weight: bold;
