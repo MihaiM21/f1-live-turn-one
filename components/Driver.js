@@ -36,7 +36,7 @@ const getTyreColour = (compound) => {
   }
 };
 
-const gridCols = "20px 60px 65px 64px 37px 100px 55px 60px 55px auto";
+const gridCols = "20px 65px 70px 64px 37px 100px 55px 60px 55px auto";
 const gridColsSmall = "18px 60px 60px 60px 18px 74px 74px 44px 38px auto";
 
 const DriverItem = styled.div`
@@ -95,7 +95,7 @@ export const TableHeader = () => (
     <p>POS</p>
     <p style={{ textAlign: "center" }}>DRIVER</p>
     <p style={{ textAlign: "center" }}>GEAR/RPM</p>
-    <p style={{ textAlign: "center" }}>SPD/PDL</p>
+    <p style={{ textAlign: "center" }}>SPEED</p>
     <p style={{ textAlign: "center" }}>DRS</p>
     <p style={{ textAlign: "center" }}>TIME</p>
     <p style={{ textAlign: "center" }}>GAP</p>
