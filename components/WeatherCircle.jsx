@@ -2,7 +2,12 @@ import React from 'react';
 
 const WeatherCircle = ({ value, unit, label, icon, color, type }) => {
     const strokeDasharray = 282; // circumferința cercului (2πr)
-    const strokeDashoffset = strokeDasharray - (value / 100) * strokeDasharray;
+    let strokeDashoffset= 0;
+    if (type === "WindSpeed"){
+        strokeDashoffset = strokeDasharray - (value / 20) * strokeDasharray;
+    }else{
+        strokeDashoffset = strokeDasharray - (value / 100) * strokeDasharray;
+    }
 
     return (
         <div className="circle-container">
@@ -16,7 +21,7 @@ const WeatherCircle = ({ value, unit, label, icon, color, type }) => {
                     stroke={color}
                     strokeDasharray={strokeDasharray}
                     strokeDashoffset={strokeDashoffset}
-                    transform="rotate(-135 50 50)"
+                    transform="rotate(-132 50 50)"
                 />
             </svg>
             <div className="circle-content">
