@@ -225,11 +225,11 @@ const Driver = ({
               : null}
           </span>
         </span>
-        <span>
-          <span title="Gear" style={{ marginRight: "var(--space-4)" }}>
+        <span style={{justifyContent: "space-between"}}>
+          <span title="Gear" style={{float: "left" }}>
             {carData["3"].toString()}
           </span>{" "}
-          <span title="RPM">
+          <span title="RPM" style={{float: "right"}}>
             {carData["0"].toString()}
           </span>
           
