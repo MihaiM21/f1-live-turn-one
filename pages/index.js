@@ -504,7 +504,7 @@ export default function Home() {
                 display: "flex",
                 alignItems: "center",
               }}
-            >
+            ><a href="http://t1f1.com">
                 <img
                     src="/logo-turnone.png"
                     alt="Turn One Logo"
@@ -514,6 +514,7 @@ export default function Home() {
                         //filter: "drop-shadow(0 0 8px rgba(255, 0, 0, 0.4))",
                     }}
                 />
+            </a>
               {!!SessionInfo && (
                 <>
                   <p style={{ marginRight: "var(--space-4)" }}>
